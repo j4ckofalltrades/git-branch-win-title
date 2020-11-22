@@ -5,7 +5,7 @@ terminal emulator's window title.
 
 ## Requirements
 
-- [Git](https://git-scm.com) v2.2 or higher 
+- [git](https://git-scm.com) v2.2 or higher 
 - Any supported [terminal emulator](#terminal-emulator-support)
 - Any supported [shell interpreter](#shell-interpreter-support)
 
@@ -26,7 +26,7 @@ e.g. `.profile`, `.bashrc`, etc.
 Tested on the following terminal emulators:
 
 - [gnome-terminal](https://github.com/GNOME/gnome-terminal)
-- [Guake](https://github.com/Guake/guake) (some options need to be enabled)
+- [guake](https://github.com/Guake/guake) (some options need to be enabled)
 - TODO: Test out on [iTerm2](https://github.com/gnachman/iTerm2)
 
 ## Shell interpreter support
@@ -38,7 +38,7 @@ Tested on the following terminal emulators:
 
 ### Powerline
 
-The `branch-window-title` function must be loaded first before configuring
+The `branch-win-title` function must be loaded first before configuring
 powerline otherwise it will override the powerline-generated shell prompt.
 
 ### Guake
