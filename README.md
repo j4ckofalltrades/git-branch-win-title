@@ -1,7 +1,7 @@
-# Git branch in terminal window title
+# Git branch in window title
 
-A small shell function that includes the current git branch (if present) to a 
-terminal emulator's window title.
+A small shell function that includes the current git branch (if present) to the
+window title.
 
 ## Requirements
 
@@ -14,32 +14,31 @@ terminal emulator's window title.
 Configuration may vary depending on the user's OS, terminal emulator, and shell
 interpreter. But in most cases, the following command should be enough:
 
-```bash
+```sh
 $ source branch-win-title.sh
 ```
 
-You may also want to add this line to your shell configuration file
-e.g. `.profile`, `.bashrc`, etc.
+You may also want to add this line to your shell configuration file e.g.
+`.profile`, `.bashrc`, `.zshrc`, etc.
+
+## Shell interpreter support
+
+- [bash](https://www.gnu.org/software/bash)
+- [zsh](https://github.com/zsh-users/zsh)
 
 ## Terminal Emulator support
 
 Tested on the following terminal emulators:
 
-- [gnome-terminal](https://github.com/GNOME/gnome-terminal) (tested v3.38.0)
-- [Guake](https://github.com/Guake/guake) (some [options](#guake) need to be enabled, tested v3.6.3)
-- [iTerm2](https://github.com/gnachman/iTerm2) (some [options](#iTerm2) need to be enabled, tested v3.4.3)
-
-
-## Shell interpreter support
-
-- [bash](https://www.gnu.org/software/bash) (tested v5.0)
-- TODO: Add [zsh](https://github.com/zsh-users/zsh) support
+- [gnome-terminal](https://github.com/GNOME/gnome-terminal)
+- [Guake](https://github.com/Guake/guake)
+- [iTerm2](https://github.com/gnachman/iTerm2)
 
 ## Additional configuration
 
 ### Powerline
 
-The `branch-window-title` function must be loaded first before configuring
+The `branch-win-title.sh` script must be loaded first before configuring
 powerline otherwise it will override the powerline-generated shell prompt.
 
 ### Guake
@@ -67,4 +66,4 @@ set-option -g automatic-rename on
 
 ## Demo
 
-![](terminal-branch-win-title.gif)
+![](branch-win-title.gif)

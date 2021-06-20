@@ -1,20 +1,77 @@
-# Include the current git branch in the terminal window title
-# Defaults to `user@hostname:current_dir` if the branch cannot be derived
-branch_win_title() {
-    # check if current dir is a git repository
-    $(git branch --show-current > /dev/null 2>&1)
- 
-    if [[ $? -eq 0 ]]; then
-         # repository name and current git branch
-	 # sample: my-awesome-git-repo - [master]
-         echo "$(basename `git rev-parse --show-toplevel`) - ["$(git branch --show-current)"]"
-    else
-         # username@hostname and current directory
-	 # sample: user@home:/home/user
-         echo "${USER}@${HOSTNAME}:$(pwd)"
-    fi
+#!/usr/bin/env bash
+
+# Includes the git branch in the title for the current working directory
+
+# MIT License
+#
+# Copyright (c) 2021 Jordan Duabe
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# Determine shell
+if [ "${ZSH_VERSION-}" ]; then
+  CURR_SHELL="zsh"
+elif [ "${BASH_VERSION-}" ]; then
+  CURR_SHELL="bash"
+fi
+
+# Determine if the current directory is a git repo
+__is_git_repo() {
+  $(git branch --show-current > /dev/null 2>&1)
+  echo "$?"
 }
- 
-# add git branch info to PS1 and window title (specific to bash)
-# see https://tldp.org/HOWTO/Bash-Prompt-HOWTO/x264.html
-PROMPT_COMMAND='echo -ne "\033]0;$(branch_win_title)\007"'
+
+# Build window tite that includes the name of the current branch; defaults to
+# `user@host:current_working_directory`.
+__branch_win_title() {
+  if [ "$(__is_git_repo)" -eq 0 ]; then
+    echo "$(basename $(git rev-parse --show-toplevel)) - ["$(git branch --show-current)"]"
+  else
+    case "${CURR_SHELL}" in   
+     "bash")
+       echo -ne "\033]0;${USER}@${HOSTNAME}:$(basename $(pwd))\007"
+       ;; 
+     "zsh")
+       print -Pn "\e]0;%n@%m: %~\a"
+     ;;
+    esac
+  fi  
+}
+
+__bash_win_title() {
+  PROMPT_COMMAND='echo -ne "\033]0;$(__branch_win_title)\007"'
+}
+
+__zsh_win_title() {
+  eval 'echo -ne "\033]0;$(__branch_win_title)\007"'
+}
+
+__set_win_title() {
+  case "${CURR_SHELL}" in
+    "bash")
+      __bash_win_title
+      ;; 
+    "zsh")
+      autoload -U add-zsh-hook
+      add-zsh-hook precmd __zsh_win_title
+      ;;
+  esac
+}
+
+__set_win_title
