@@ -38,14 +38,16 @@ __is_git_repo() {
 }
 
 # Build window tite that includes the name of the current branch; defaults to
-# `user@host:current_working_directory`.
+# `user@host:current_working_directory` if current directory is not a git repo.
 __branch_win_title() {
   if [ "$(__is_git_repo)" -eq 0 ]; then
-    echo "$(basename $(git rev-parse --show-toplevel)) - ["$(git branch --show-current)"]"
+    local curr_dir="$(basename $(git rev-parse --show-toplevel))"
+    local curr_branch="$(git branch --show-current)"
+    echo "${curr_dir} - [${curr_branch}]"
   else
     case "${CURR_SHELL}" in   
      "bash")
-       echo -ne "\033]0;${USER}@${HOSTNAME}:$(basename $(pwd))\007"
+       echo -ne "${USER}@${HOSTNAME}:${PWD/*\//}"
        ;; 
      "zsh")
        print -Pn "\e]0;%n@%m: %~\a"
