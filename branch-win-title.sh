@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Includes the git branch in the title for the current working directory
+# Add the current git branch name to the terminal emulator window title.
 
 # MIT License
 #
@@ -44,7 +44,7 @@ __branch_win_title() {
     local curr_dir
     local curr_branch
 
-    curr_dir="$(basename "$(git rev-parse --show-toplevel)")"
+    curr_dir="$(basename -s .git "$(git remote get-url origin)")"
     curr_branch="$(git branch --show-current)"
 
     if [ -n "$curr_branch" ]; then
