@@ -1,7 +1,6 @@
-# Git branch in window title
+![git-branch-win-title](https://res.cloudinary.com/j4ckofalltrades/image/upload/v1697278939/foss/gh-social-icons/git-branch-win-title_bkf47c.png)
 
-A small shell function that includes the current git branch (if present) to the
-window title.
+A small shell function that adds the current git branch (if present) to the terminal emulator window title.
 
 ## Requirements
 
@@ -30,9 +29,10 @@ You may also want to add this line to your shell configuration file e.g.
 
 Tested on the following terminal emulators:
 
-- [gnome-terminal](https://github.com/GNOME/gnome-terminal)
-- [Guake](https://github.com/Guake/guake)
+- [Alacritty](https://github.com/alacritty/alacritty)
 - [iTerm2](https://github.com/gnachman/iTerm2)
+- [Gnome Terminal](https://github.com/GNOME/gnome-terminal)
+- [Guake](https://github.com/Guake/guake)
 
 ## Additional configuration
 
