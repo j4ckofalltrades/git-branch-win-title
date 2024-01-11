@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Add the current git branch name to the terminal emulator window title.
-
+#
 # MIT License
 #
 # Copyright (c) 2021 Jordan Duabe
@@ -33,26 +33,30 @@ fi
 
 # Determine if the current directory is a git repo
 __is_git_repo() {
-  git branch --show-current > /dev/null 2>&1
+  $(git branch --show-current > /dev/null 2>&1)
   echo "$?"
 }
 
 # Build window tite that includes the name of the current branch; defaults to
 # `user@host:current_working_directory` if current directory is not a git repo.
 __branch_win_title() {
-  if [ "$(__is_git_repo)" -eq 0 ]; then
-    local curr_dir
-    local curr_branch
+  if [[ "$(__is_git_repo)" -eq 0 ]]; then
+    local branch
+    local dir
 
-    curr_dir="$(basename -s .git "$(git remote get-url origin)")"
-    curr_branch="$(git branch --show-current)"
+    if [[ -n "$(git remote show)" ]]; then
+      dir="$(basename -s .git "$(git remote get-url origin)")"
+    else
+      dir="${PWD/*\//}"
+    fi
 
-    if [ -n "$curr_branch" ]; then
-      echo "${curr_dir} - [${curr_branch}]"
+    branch="$(git branch --show-current)"
+    if [[ -n "$branch" ]]; then
+      echo "${dir} - [${branch}]"
     else
       local detached_commit
       detached_commit="$(git show -s --format=%h)"
-      echo "${curr_dir} - [detached at ${detached_commit}]"
+      echo "${dir} - [detached at ${detached_commit}]"
     fi
   else
     case "${CURR_SHELL}" in   
