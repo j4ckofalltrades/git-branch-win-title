@@ -52,11 +52,11 @@ __branch_win_title() {
 
     branch="$(git branch --show-current)"
     if [[ -n "$branch" ]]; then
-      echo "${dir} - [${branch}]"
+      echo -e "${dir} \u2387 [${branch}]"
     else
       local detached_commit
-      detached_commit="$(git show -s --format=%h)"
-      echo "${dir} - [detached at ${detached_commit}]"
+      detached_commit="$(git show --summary --format=%h)"
+      echo "${dir} [detached at ${detached_commit}]"
     fi
   else
     case "${CURR_SHELL}" in   
